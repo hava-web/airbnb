@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, FormEventHandler, useState } from 'react';
 import { Link } from 'react-router-dom';
 import accountServices from '../services/account';
 
@@ -7,11 +7,16 @@ const RegisterPage = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
+  const onSubmit: FormEventHandler = (e: FormEvent) => {
+    e.preventDefault();
+    accountServices.Login({ name, email, password });
+  };
+
   return (
     <div className='mt-4 grow flex items-center justify-around'>
       <div className='mb-64'>
         <h1 className='text-3xl text-center mb-4'>Register</h1>
-        <form className='max-w-md mx-auto' onSubmit={accountServices.Login()}>
+        <form className='max-w-md mx-auto' onSubmit={onSubmit}>
           <input
             type='text'
             placeholder='Joe Doe'
@@ -30,7 +35,7 @@ const RegisterPage = () => {
             value={password}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
           />
-          <button className='primary'>Login</button>
+          <button className='primary'>Register</button>
           <div className='text-center py-2 text-gray-500'>
             Already a member ?
             <Link className='underline text-black' to={'/login'}>
