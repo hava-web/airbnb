@@ -1,5 +1,10 @@
-import { FormEventHandler } from 'react';
-
 export interface IAccountService {
-  Login: () => FormEventHandler;
+  /*Login function */
+  Login: (data: RegisterFields) => void;
 }
+
+export type RegisterFields = {
+  name: string | undefined;
+  email: string | undefined;
+  password: string | undefined;
+};
