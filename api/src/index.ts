@@ -9,6 +9,8 @@ const corsOption: CorsOptions = {
   origin: 'http://localhost:5173',
 };
 
+//mongo user password: hE0LQmloS6dKnZwm
+
 app.use(express.json());
 app.use(cors(corsOption));
 
