@@ -27,13 +27,17 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/register', async (req: Request, res: Response) => {
   const { name, email, password }: { name: string; email: string; password: string } = req.body;
-  const userDoc = await UserModel.create({
-    name,
-    email,
-    password: bcrypt.hashSync(password, bcryptSalt),
-  });
+  try {
+    const userDoc = await UserModel.create({
+      name,
+      email,
+      password: bcrypt.hashSync(password, bcryptSalt),
+    });
 
-  res.json(userDoc);
+    res.json(userDoc);
+  } catch (e) {
+    res.status(422).json(e);
+  }
 });
 
 app.listen(4000);

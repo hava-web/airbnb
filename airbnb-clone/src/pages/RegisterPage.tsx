@@ -7,9 +7,14 @@ const RegisterPage = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
-  const onSubmit: FormEventHandler = (e: FormEvent) => {
-    e.preventDefault();
-    accountServices.Login({ name, email, password });
+  const onSubmit: FormEventHandler = async (e: FormEvent) => {
+    try {
+      e.preventDefault();
+      await accountServices.Register({ name, email, password });
+      alert('registration successfully');
+    } catch (err) {
+      alert('registration false');
+    }
   };
 
   return (

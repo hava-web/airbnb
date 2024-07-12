@@ -1,6 +1,6 @@
 export interface IAccountService {
   /*Login function */
-  Login: (data: RegisterFields) => void;
+  Register: (data: RegisterFields) => void;
 }
 
 export type RegisterFields = {
