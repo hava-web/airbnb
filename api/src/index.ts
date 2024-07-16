@@ -2,13 +2,14 @@ import express, { Request, Response } from 'express';
 import cors, { CorsOptions } from 'cors';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { sign, SignCallback } from 'jsonwebtoken';
 import { UserModel } from './models/User';
 require('dotenv').config();
 
 const app = express();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
-// const bcryptSalt = bcrypt.genSalt(10);
+const jwtSecret = 'dqwyhg7842niw823h9j9dudw9';
 
 const corsOption: CorsOptions = {
   credentials: true,
@@ -33,11 +34,34 @@ app.post('/register', async (req: Request, res: Response) => {
       email,
       password: bcrypt.hashSync(password, bcryptSalt),
     });
-
     res.json(userDoc);
   } catch (e) {
     res.status(422).json(e);
   }
 });
+
+app.post('/login', async (req: Request, res: Response) => {
+  const {email, password} = req.body;
+  const userDoc = await UserModel.findOne({email});
+  if(userDoc && userDoc.password)
+  {
+    const checkPassword = bcrypt.compareSync(password, userDoc.password);
+    if(checkPassword)
+    {
+      sign({email: userDoc.email, id: userDoc._id}, jwtSecret, {}, (err, token) => {
+        if(err) throw err;
+        res.cookie('token', token).json('pass ok');
+      });
+    }
+    else
+    {
+      res.status(422).json('pass not ok');
+    }
+  }
+  else
+  {
+    res.json('not found');
+  }
+})
 
 app.listen(4000);
