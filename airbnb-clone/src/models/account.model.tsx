@@ -2,6 +2,7 @@ export interface IAccountService {
   /*Login function */
   Register: (data: RegisterFields) => void;
   Login: (data: LoginFields) => void;
+  Fetch: () => void
 }
 
 export type RegisterFields = {
@@ -11,3 +12,9 @@ export type RegisterFields = {
 };
 
 export type LoginFields = Omit<RegisterFields, "name">;
+
+export type IAccountInitialState = {
+  token: string;
+  name: string;
+  email: string;
+};

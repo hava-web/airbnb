@@ -8,6 +8,10 @@ const accountServices: IAccountService = {
 
   Login: async (data: LoginFields) => {
     await http.airbnb.post('/login',data);
+  },
+
+  Fetch: async () =>{
+    
   }
 };
 
