@@ -1,17 +1,29 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import accountServices from '../services/account';
+import { accountAction } from '../store/models/account.store';
+import { useAppDispatch } from '../store';
 
 const LoginPage: FC = () => {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const dispatch = useAppDispatch();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   const onSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
-      await accountServices.Login({ email, password });
-      alert('Login success');
+      await accountServices
+        .Login({ email, password })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .then((res: any) => {
+          console.log(res?.data);
+          dispatch(accountAction.GetUserInfo(res?.data));
+          alert('Login success');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       setIsLogin(true);
     } catch (error) {
       alert('Login failed');

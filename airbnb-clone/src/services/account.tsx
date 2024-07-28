@@ -2,17 +2,15 @@ import { IAccountService, LoginFields, RegisterFields } from '../models/account.
 import http from '../utils/http.client';
 
 const accountServices: IAccountService = {
-  Register: async (data : RegisterFields) => {
-    await http.airbnb.post('/register', data);
+  Register: async (data: RegisterFields) => {
+    return await http.airbnb.post('/register', data);
   },
 
   Login: async (data: LoginFields) => {
-    await http.airbnb.post('/login',data);
+    return await http.airbnb.post('/login', data);
   },
 
-  Fetch: async () =>{
-    
-  }
+  Fetch: async () => {},
 };
 
 export default accountServices;
