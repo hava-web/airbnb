@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import accountReducer from './models/account.store';
+import AccountReducer from './models/account.store';
 
 const rootReducer = combineReducers({
-  account: accountReducer
+  account: AccountReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();

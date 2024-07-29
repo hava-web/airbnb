@@ -10,7 +10,9 @@ const accountServices: IAccountService = {
     return await http.airbnb.post('/login', data);
   },
 
-  Fetch: async () => {},
+  Fetch: async () => {
+    return await http.airbnb.get(`/profile`);  
+  },
 };
 
 export default accountServices;

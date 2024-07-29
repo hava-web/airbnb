@@ -1,8 +1,8 @@
 export interface IAccountService {
   /*Login function */
   Register: (data: RegisterFields) => void;
-  Login: (data: LoginFields) => Promise<unknown>;
-  Fetch: () => void;
+  Login: (data: LoginFields) => Promise<never>;
+  Fetch: () => Promise<never>;
 }
 
 export type RegisterFields = {
@@ -18,3 +18,8 @@ export type IAccountInitialState = {
   name: string;
   email: string;
 };
+
+export type ResponeAccountResult = Omit<IAccountInitialState, 'token'> & {
+  password? : string,
+  id?: string
+}

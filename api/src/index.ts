@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import cors, { CorsOptions } from 'cors';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { sign, SignCallback } from 'jsonwebtoken';
+import cookieParser from 'cookie-parser';
+import { sign, verify } from 'jsonwebtoken';
 import { UserModel } from './models/User';
 require('dotenv').config();
 
@@ -20,6 +21,7 @@ const corsOption: CorsOptions = {
 mongoose.connect(process.env.MONGO_URL ?? '');
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors(corsOption));
 
 app.get('/', (req: Request, res: Response) => {
@@ -48,7 +50,13 @@ app.post('/login', async (req: Request, res: Response) => {
     const checkPassword = bcrypt.compareSync(password, userDoc.password);
     if(checkPassword)
     {
-      sign({email: userDoc.email, id: userDoc._id}, jwtSecret, {}, (err, token) => {
+      sign(
+        {
+          id: userDoc._id,
+          email: userDoc.email, 
+          name: userDoc.name
+        },
+        jwtSecret, {}, (err, token) => {
         if(err) throw err;
         res.cookie('token', token).json(userDoc);
       });
@@ -61,6 +69,22 @@ app.post('/login', async (req: Request, res: Response) => {
   else
   {
     res.json('not found');
+  }
+})
+
+app.get('/profile', async (req: Request, res: Response) => {
+  const {token} = req.cookies;
+  if(token)
+  {
+    verify(token, jwtSecret, {}, async (error, user: any) => {
+      if(error) throw error;
+      const UserDoc = await UserModel.findById(user.id)
+      res.json(UserDoc)
+    });
+  }
+  else
+  {
+    res.json(null)
   }
 })
 

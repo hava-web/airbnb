@@ -1,10 +1,14 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { GetIdentity } from '../../store/models/account.store';
 
-const index = () => {
+const Index = () => {
+  const identity = useSelector(GetIdentity);
+  
   return (
     <>
       <header className='flex justify-between'>
-        <a href='' className='flex items-center gap-1'>
+        <Link to='/' className='flex items-center gap-1'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -20,7 +24,7 @@ const index = () => {
             />
           </svg>
           <span className='font-bold'>airbnb</span>
-        </a>
+        </Link>
         <div className='flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300'>
           <div>Anywhere</div>
           <div className='border-l border-gray-300'></div>
@@ -44,7 +48,7 @@ const index = () => {
             </svg>
           </button>
         </div>
-        <Link to={'/login'} className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4'>
+        <Link to={identity.name.length > 0 ? 'account' : '/login'} className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -65,10 +69,15 @@ const index = () => {
               />
             </svg>
           </div>
+          {!!identity && (
+            <>
+              {identity.name}
+            </>
+          )}
         </Link>
       </header>
     </>
   );
 };
 
-export default index;
+export default Index;

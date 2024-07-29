@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IAccountInitialState } from '../../models/account.model';
+import { IAccountInitialState, ResponeAccountResult } from '../../models/account.model';
+import { IStateModel } from '../../models/index.store.model';
+import accountServices from '../../services/account';
 
 const initialState: IAccountInitialState = {
   token: '',
@@ -7,33 +9,47 @@ const initialState: IAccountInitialState = {
   email: '',
 };
 
-export const fetchUserInformation = createAsyncThunk('USER/FETCH_USER_INFO', async () => {});
+export const FetchUserInformation = createAsyncThunk('USER/FETCH_USER_INFO', async () => {
+  const response = await new Promise((resolve) => {
+    accountServices.Fetch()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((response: any) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+  
+  return response;
+});
 
-export const accountSlice = createSlice({
+export const AccountSlice = createSlice({
   name: 'account',
   initialState: initialState,
   reducers: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    GetUserInfo: (state: IAccountInitialState, action: PayloadAction<unknown>) => {
-      console.log(action);
-      console.log(state);
+    GetUserInfo: (state: IAccountInitialState, action: PayloadAction<ResponeAccountResult>) => {
       return {
         ...state,
-        name: action.payload?.name,
-        email: action.payload?.email,
+        name: action.payload.name,
+        email: action.payload.email,
       };
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchUserInformation.fulfilled, () => {});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    builder.addCase(FetchUserInformation.fulfilled, (state: IAccountInitialState, action: any) => {      
+      state.email = action.payload?.email;
+      state.name = action.payload?.name;
+    });
   },
 });
 
-const { reducer: accountReducer } = accountSlice;
+const { reducer: AccountReducer } = AccountSlice;
 
-export const accountAction = accountSlice.actions;
+export const AccountAction = AccountSlice.actions;
 
 //Get data
-export const getIdentity = (state: IAccountInitialState) => state;
+export const GetIdentity = (state: IStateModel) => state.account;
 
-export default accountReducer;
+export default AccountReducer;

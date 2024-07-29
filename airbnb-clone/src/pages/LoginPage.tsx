@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import accountServices from '../services/account';
-import { accountAction } from '../store/models/account.store';
+import { AccountAction, FetchUserInformation } from '../store/models/account.store';
 import { useAppDispatch } from '../store';
 
 const LoginPage: FC = () => {
@@ -10,6 +10,10 @@ const LoginPage: FC = () => {
   const [password, setPassword] = useState<string>('');
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
+  const handlerInfo = () => {
+    dispatch(FetchUserInformation());
+  };
+
   const onSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
@@ -17,8 +21,8 @@ const LoginPage: FC = () => {
         .Login({ email, password })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((res: any) => {
-          console.log(res?.data);
-          dispatch(accountAction.GetUserInfo(res?.data));
+          dispatch(AccountAction.GetUserInfo(res?.data));
+          handlerInfo();
           alert('Login success');
         })
         .catch((error) => {

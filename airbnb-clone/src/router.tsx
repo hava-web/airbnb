@@ -4,6 +4,7 @@ import { Router } from '@remix-run/router';
 import LoginPage from './pages/LoginPage';
 import PageLayout from './layouts/PageLayout';
 import RegisterPage from './pages/RegisterPage';
+import Account from './pages/Account';
 
 export type ExtendRouteObjectProps = RouteObject & { IsPublic: boolean };
 
@@ -23,6 +24,10 @@ const routes: ExtendRouteObjectProps[] = [
         path: '/register',
         element: <RegisterPage />,
       },
+      {
+        path: '/account',
+        element: <Account />
+      }
     ],
     IsPublic: true,
   },
