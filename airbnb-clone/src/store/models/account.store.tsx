@@ -2,11 +2,14 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IAccountInitialState, ResponeAccountResult } from '../../models/account.model';
 import { IStateModel } from '../../models/index.store.model';
 import accountServices from '../../services/account';
+import { GetCookie } from '../../utils/cookie.handle';
 
 const initialState: IAccountInitialState = {
-  token: '',
+  token: undefined,
   name: '',
   email: '',
+  isAuthorized: false,
+  isLoading: false,
 };
 
 export const FetchUserInformation = createAsyncThunk('USER/FETCH_USER_INFO', async () => {
@@ -41,6 +44,8 @@ export const AccountSlice = createSlice({
     builder.addCase(FetchUserInformation.fulfilled, (state: IAccountInitialState, action: any) => {      
       state.email = action.payload?.email;
       state.name = action.payload?.name;
+      state.isLoading = true;
+      state.token = GetCookie('token');
     });
   },
 });

@@ -26,7 +26,13 @@ const routes: ExtendRouteObjectProps[] = [
       },
       {
         path: '/account',
-        element: <Account />
+        element: <Account />,
+        children: [
+          {
+            path: '/account/:subpage',
+            element: <></>
+          },
+        ]
       }
     ],
     IsPublic: true,

@@ -23,7 +23,6 @@ const LoginPage: FC = () => {
         .then((res: any) => {
           dispatch(AccountAction.GetUserInfo(res?.data));
           handlerInfo();
-          alert('Login success');
         })
         .catch((error) => {
           console.log(error);

@@ -48,7 +48,7 @@ const Index = () => {
             </svg>
           </button>
         </div>
-        <Link to={identity.name.length > 0 ? 'account' : '/login'} className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4'>
+        <Link to={identity?.name?.length > 0 ? '/account' : '/login'} className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
