@@ -18,10 +18,10 @@ export type IAccountInitialState = {
   name: string;
   email: string;
   isAuthorized?: boolean;
-  isLoading?: boolean
+  isLoading?: boolean;
 };
 
-export type ResponeAccountResult = Omit<IAccountInitialState, 'token'> & {
-  password? : string,
-  id?: string
-}
+export type ResponseAccountResult = Omit<IAccountInitialState, 'token'> & {
+  password?: string;
+  id?: string;
+};
