@@ -3,6 +3,7 @@ export interface IAccountService {
   Register: (data: RegisterFields) => void;
   Login: (data: LoginFields) => Promise<never>;
   Fetch: () => Promise<never>;
+  Logout: () => Promise<never>;
 }
 
 export type RegisterFields = {

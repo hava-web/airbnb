@@ -88,4 +88,8 @@ app.get('/profile', async (req: Request, res: Response) => {
   }
 })
 
+app.post('/logout', (req: Request, res: Response) => {
+  res.clearCookie('token').json(true)
+});
+
 app.listen(4000);

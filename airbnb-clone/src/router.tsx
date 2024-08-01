@@ -4,7 +4,7 @@ import { Router } from '@remix-run/router';
 import LoginPage from './pages/LoginPage';
 import PageLayout from './layouts/PageLayout';
 import RegisterPage from './pages/RegisterPage';
-import Account from './pages/Account';
+import Account from './pages/account/Account';
 
 export type ExtendRouteObjectProps = RouteObject & { IsPublic: boolean };
 

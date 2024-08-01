@@ -11,8 +11,11 @@ const accountServices: IAccountService = {
   },
 
   Fetch: async () => {
-    return await http.airbnb.get(`/profile`);  
+    return await http.airbnb.get(`/profile`);
   },
+  Logout: async () => {
+    return await http.airbnb.post(`/logout`);
+  }
 };
 
 export default accountServices;

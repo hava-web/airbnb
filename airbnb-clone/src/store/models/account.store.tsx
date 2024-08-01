@@ -21,7 +21,7 @@ export const FetchUserInformation = createAsyncThunk('USER/FETCH_USER_INFO', asy
         resolve(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        throw new Error(error);
       });
   });
 
@@ -39,6 +39,13 @@ export const AccountSlice = createSlice({
         email: action.payload.email,
       };
     },
+    ClearUserSession: (state: IAccountInitialState) => {
+      return {
+        ...state,
+        name: '',
+        email: ''
+      };
+    }
   },
   extraReducers(builder) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

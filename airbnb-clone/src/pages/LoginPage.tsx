@@ -25,11 +25,13 @@ const LoginPage: FC = () => {
           handlerInfo();
         })
         .catch((error) => {
-          console.log(error);
+          throw new Error(error);
         });
       setIsLogin(true);
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       alert('Login failed');
+      throw new Error(error);
     }
   };
 
