@@ -31,6 +31,11 @@ const routes: ExtendRouteObjectProps[] = [
           {
             path: '/account/:subPage',
             element: <></>,
+            children: [
+              {
+                path: 'account/:subPage/:action'
+              }
+            ]
           },
         ],
       },

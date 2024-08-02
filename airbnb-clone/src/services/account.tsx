@@ -1,4 +1,4 @@
-import { IAccountService, LoginFields, RegisterFields } from '../models/account.model';
+import { IAccountService, RegisterFields } from '../models/account.model';
 import http from '../utils/http.client';
 
 const accountServices: IAccountService = {
@@ -6,7 +6,7 @@ const accountServices: IAccountService = {
     return await http.airbnb.post('/register', data);
   },
 
-  Login: async (data: LoginFields) => {
+  Login: async (data: Omit<RegisterFields, 'name'>) => {
     return await http.airbnb.post('/login', data);
   },
 

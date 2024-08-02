@@ -1,7 +1,7 @@
 export interface IAccountService {
   /*Login function */
   Register: (data: RegisterFields) => void;
-  Login: (data: LoginFields) => Promise<never>;
+  Login: (data: Omit<RegisterFields, 'name'>) => Promise<never>;
   Fetch: () => Promise<never>;
   Logout: () => Promise<never>;
 }
@@ -12,7 +12,6 @@ export type RegisterFields = {
   password: string | undefined;
 };
 
-export type LoginFields = Omit<RegisterFields, 'name'>;
 
 export type IAccountInitialState = {
   token: string | undefined;
@@ -26,3 +25,7 @@ export type ResponseAccountResult = Omit<IAccountInitialState, 'token'> & {
   password?: string;
   id?: string;
 };
+
+
+export type IAccountURL = 'profile' | 'bookings' | 'places';
+
