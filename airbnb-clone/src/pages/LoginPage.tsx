@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import accountServices from '../services/account';
 import { AccountAction, FetchUserInformation } from '../store/models/account.store';
 import { useAppDispatch } from '../store';
@@ -9,6 +9,7 @@ const LoginPage: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handlerInfo = () => {
     dispatch(FetchUserInformation());
@@ -23,6 +24,7 @@ const LoginPage: FC = () => {
         .then((res: any) => {
           dispatch(AccountAction.GetUserInfo(res?.data));
           handlerInfo();
+          navigate('/');
         })
         .catch((error) => {
           throw new Error(error);
