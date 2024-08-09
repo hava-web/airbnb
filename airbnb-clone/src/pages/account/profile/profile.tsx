@@ -1,22 +1,23 @@
-import React, { Dispatch, FC } from "react";
+import { FC } from "react";
 import accountServices from "../../../services/account";
 import { AccountAction } from "../../../store/models/account.store";
 import { useAppDispatch } from "../../../store";
 import { IAccountInitialState } from "../../../models/account.model";
+import { useNavigate } from "react-router-dom";
 
-type IProfileType = {
-    setRedirect: Dispatch<React.SetStateAction<string | null>>,
+export type IProfileType = {
     identity: IAccountInitialState
 };
 
-const Profile: FC<IProfileType> = ({ setRedirect, identity }) => {
+const Profile: FC<IProfileType> = ({ identity }) => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const logout = async () => {
         try {
             await accountServices.Logout()
                 .then(() => {
                     dispatch(AccountAction.ClearUserSession());
-                    setRedirect('/');
+                    navigate('/');
                 })
                 .catch((error) => {
                     throw new Error(error);

@@ -43,47 +43,41 @@ app.post('/register', async (req: Request, res: Response) => {
 });
 
 app.post('/login', async (req: Request, res: Response) => {
-  const {email, password} = req.body;
-  const userDoc = await UserModel.findOne({email});
-  if(userDoc && userDoc.password)
-  {
+  const { email, password } = req.body;
+  const userDoc = await UserModel.findOne({ email });
+  if (userDoc && userDoc.password) {
     const checkPassword = bcrypt.compareSync(password, userDoc.password);
-    if(checkPassword)
-    {
+    if (checkPassword) {
       sign(
         {
           id: userDoc._id,
-          email: userDoc.email, 
+          email: userDoc.email,
           name: userDoc.name
         },
         jwtSecret, {}, (err, token) => {
-        if(err) throw err;
-        res.cookie('token', token).json(userDoc);
-      });
+          if (err) throw err;
+          res.cookie('token', token).json(userDoc);
+        });
     }
-    else
-    {
+    else {
       res.status(422).json('pass not ok');
     }
   }
-  else
-  {
-    res.json('not found');
+  else {
+    res.status(400).json('not found');
   }
 })
 
 app.get('/profile', async (req: Request, res: Response) => {
-  const {token} = req.cookies;
-  if(token)
-  {
+  const { token } = req.cookies;
+  if (token) {
     verify(token, jwtSecret, {}, async (error, user: any) => {
-      if(error) throw error;
+      if (error) throw error;
       const UserDoc = await UserModel.findById(user.id)
       res.json(UserDoc)
     });
   }
-  else
-  {
+  else {
     res.json(null)
   }
 })

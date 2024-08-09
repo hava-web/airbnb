@@ -2,18 +2,18 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../store';
 import { GetIdentity } from '../../store/models/account.store';
 
-import React, { useState } from 'react';
-import Profile from './profile/profile';
+import React from 'react';
+import { Profile } from '../../components/lazy';
 import { IAccountURL } from '../../models/account.model';
 import Place from './accommodation/place';
 import Booking from './booking/booking';
+import CustomSuspense from '../../components/suspense';
 
 const Account = () => {
   const identity = useAppSelector(GetIdentity);
-  const [redirect, setRedirect] = useState<string | null>(null);
   let { subPage } = useParams<{ subPage: IAccountURL }>();
   const ComponentPage: Record<IAccountURL, React.ReactNode> = {
-    'profile': <Profile setRedirect={setRedirect} identity={identity} />,
+    'profile': <Profile identity={identity} />,
     'places': <Place />,
     'bookings': <Booking />,
   };
@@ -37,9 +37,6 @@ const Account = () => {
     return classes;
   };
 
-  if (redirect) {
-    return <Navigate to={'/'} />;
-  }
 
   return (
     <>
@@ -68,7 +65,11 @@ const Account = () => {
       </nav>
       {
         subPage !== undefined && (
-          ComponentPage[subPage]
+          <CustomSuspense fallback={<>...loading</>}>
+            {
+              ComponentPage[subPage]
+            }
+          </CustomSuspense>
         )
       }
     </>

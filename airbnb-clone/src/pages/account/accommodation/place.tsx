@@ -1,7 +1,9 @@
 
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const Place = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { action } = useParams();
     return (
         <>
             <div className="text-center">

@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import accountServices from '../services/account';
 import { AccountAction, FetchUserInformation } from '../store/models/account.store';
 import { useAppDispatch } from '../store';
@@ -8,7 +8,6 @@ const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isLogin, setIsLogin] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handlerInfo = () => {
@@ -29,7 +28,6 @@ const LoginPage: FC = () => {
         .catch((error) => {
           throw new Error(error);
         });
-      setIsLogin(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       alert('Login failed');
@@ -37,9 +35,6 @@ const LoginPage: FC = () => {
     }
   };
 
-  if (isLogin) {
-    return <Navigate to={'/'} />;
-  }
 
   return (
     <div className='mt-4 grow flex items-center justify-around'>
