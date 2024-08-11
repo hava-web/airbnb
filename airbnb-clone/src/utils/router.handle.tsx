@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { ExtendRouteObjectProps } from '../router';
+import { ExtendRouteObjectProps } from '../router/router';
 
 const RouteWithSubRoutes = (route: ExtendRouteObjectProps) => {
   return (

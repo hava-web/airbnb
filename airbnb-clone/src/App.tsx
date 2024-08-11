@@ -1,7 +1,7 @@
 import moment from 'moment';
 import './App.css';
 import { RouterProvider } from 'react-router-dom';
-import router from './router';
+import router from './router/router';
 import { useAppDispatch } from './store';
 import { FetchUserInformation } from './store/models/account.store';
 import { useEffect } from 'react';

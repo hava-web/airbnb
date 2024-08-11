@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { Router } from '@remix-run/router';
 
-import { LoginPage, IndexPage, RegisterPage, Account } from './components/lazy';
-import PageLayout from './layouts/PageLayout';
+import { LoginPage, IndexPage, RegisterPage, Account } from '../components/lazy';
+import PageLayout from '../layouts/PageLayout';
 
 export type ExtendRouteObjectProps = RouteObject & { IsPublic: boolean };
 
@@ -28,13 +28,13 @@ const routes: ExtendRouteObjectProps[] = [
         children: [
           {
             path: '/account/:subPage',
-            element: <></>,
+            element: <Account />,
             children: [
               {
-                path: 'account/:subPage/:action',
-                element: <></>
-              }
-            ]
+                path: 'account/:subPage/new',
+                element: <></>,
+              },
+            ],
           },
         ],
       },
