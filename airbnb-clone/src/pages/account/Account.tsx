@@ -12,6 +12,7 @@ import CustomSuspense from '../../components/suspense';
 const Account = () => {
   const identity = useAppSelector(GetIdentity);
   let { subPage } = useParams<{ subPage: IAccountURL }>();
+
   const ComponentPage: Record<IAccountURL, React.ReactNode> = {
     profile: <Profile identity={identity} />,
     places: <Place />,
